@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'irb'
+require_relative '../config/gem_dependencies'
+require_relative '../config/app_dependencies'
+
+IRB.start

@@ -1,0 +1,22 @@
+.container
+  %h3 All statistic
+  %table.table
+    %thead
+      %tr
+        %th period_from
+        %th period_to
+        %th data
+    %tbody
+    - locals[:statistic].each do |statistic|
+      %tr      
+        %td= statistic.period_start
+        %td= statistic.period_end
+        %td
+          - statistic.data.each do |cur, cur_val|
+            %ul
+              = cur
+              - cur_val.each do |k, v|
+                %li= "#{k} = #{v}" 
+        
+
+  %a{ href: "/" } Home

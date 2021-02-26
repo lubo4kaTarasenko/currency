@@ -1,0 +1,35 @@
+version: '2'
+services:
+  app:
+    build: .
+    image: converter
+    command: bundle exec ruby app.rb -s Puma
+    ports:
+      - 4567:4567
+    volumes:
+      - .:/app
+    depends_on:
+      - mongodb  
+    links:
+      - redis
+      - mongodb
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+  sidekiq:
+    build: .
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    links:
+      - mongodb
+      - redis
+    command: bundle exec sidekiq -r ./app.rb
+  redis:
+    image: redis:latest
+  mongodb:
+    image: mongo
+    
+    

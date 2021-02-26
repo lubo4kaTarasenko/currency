@@ -1,0 +1,47 @@
+---
+- hosts: all
+  #become: true
+  vars:
+    create_containers: 4
+    default_container_name: docker
+    default_container_image: ubuntu
+    default_container_command: sleep 1d
+
+  tasks:
+    - name: copying file
+      copy:
+        src: /home/luba/projects/moc-currency-converter/docker-compose-prod.yml
+        dest: /home/deployer/app/docker-compose.yml
+
+    - name: copying file
+      copy:
+        src: /home/luba/projects/moc-currency-converter/.env
+        dest: /home/deployer/app/.env
+
+    - name: Go to the folder and stop compose
+      shell:
+        cmd: docker-compose stop
+        chdir: /home/deployer/app
+
+    - name: Go to the folder and remove containers 
+      shell:
+        cmd: docker-compose rm -f -v
+        chdir: /home/deployer/app
+
+    - name: Go to the folder and remove image
+      shell:
+        cmd: docker rmi -f tarlub/converter
+        chdir: /home/deployer/app
+   
+    - name: pull image
+      shell:
+        cmd: docker-compose pull
+        chdir: /home/deployer/app
+
+    - name: Go to the folder and run compose
+      shell:
+        cmd: docker-compose up -d
+        chdir: /home/deployer/app
+
+    # - name: run docker compose 
+    #   command: docker-compose up --build -d

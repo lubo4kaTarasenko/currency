@@ -1,0 +1,17 @@
+.container
+  %h3 Live Currency Rates
+
+  %table.table
+    %thead
+      %tr
+        %th currency
+        %th rate to usd
+        %th date
+    %tbody
+    - locals[:rates].each do |rate|
+      %tr      
+        %td= rate.currency
+        %td= rate.value
+        %td= rate.fetched_at
+
+  %a{ href: "/statistic" } Go to statistic
